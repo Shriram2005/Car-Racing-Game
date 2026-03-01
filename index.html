@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velocity: Open World Racing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="game-logo">
+                <h1>VELOCITY</h1>
+                <span class="subtitle">OPEN WORLD RACING</span>
+            </div>
+            <div class="loading-bar-container">
+                <div class="loading-bar">
+                    <div class="loading-bar-fill" id="loading-bar-fill"></div>
+                </div>
+                <span class="loading-text" id="loading-text">Loading assets...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="main-menu" style="display:none;">
+        <div class="menu-bg-overlay"></div>
+        <div class="menu-content">
+            <div class="menu-logo">
+                <h1>VELOCITY</h1>
+                <span class="subtitle">OPEN WORLD RACING</span>
+            </div>
+            <div class="menu-buttons">
+                <button class="menu-btn primary" id="btn-quick-race">
+                    <span class="btn-icon">&#9654;</span>
+                    <span class="btn-text">QUICK RACE</span>
+                </button>
+                <button class="menu-btn" id="btn-free-roam">
+                    <span class="btn-icon">&#127758;</span>
+                    <span class="btn-text">FREE ROAM</span>
+                </button>
+                <button class="menu-btn" id="btn-garage">
+                    <span class="btn-icon">&#128663;</span>
+                    <span class="btn-text">GARAGE</span>
+                </button>
+                <button class="menu-btn" id="btn-settings">
+                    <span class="btn-icon">&#9881;</span>
+                    <span class="btn-text">SETTINGS</span>
+                </button>
+            </div>
+            <div class="menu-footer">
+                <span>Use W A S D or Arrow Keys to drive &bull; SPACE to brake &bull; C to change camera &bull; R to reset</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Car Selection (Garage) -->
+    <div id="garage-screen" style="display:none;">
+        <div class="menu-bg-overlay"></div>
+        <div class="garage-content">
+            <h2 class="garage-title">SELECT YOUR RIDE</h2>
+            <div class="car-selector">
+                <div class="car-card selected" data-car="sport">
+                    <div class="car-preview sport-car"></div>
+                    <h3>THUNDERBOLT</h3>
+                    <div class="car-stats">
+                        <div class="stat"><span>SPEED</span><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div></div>
+                        <div class="stat"><span>ACCEL</span><div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div></div>
+                        <div class="stat"><span>HANDLING</span><div class="stat-bar"><div class="stat-fill" style="width:75%"></div></div></div>
+                    </div>
+                </div>
+                <div class="car-card" data-car="muscle">
+                    <div class="car-preview muscle-car"></div>
+                    <h3>FURY</h3>
+                    <div class="car-stats">
+                        <div class="stat"><span>SPEED</span><div class="stat-bar"><div class="stat-fill" style="width:80%"></div></div></div>
+                        <div class="stat"><span>ACCEL</span><div class="stat-bar"><div class="stat-fill" style="width:95%"></div></div></div>
+                        <div class="stat"><span>HANDLING</span><div class="stat-bar"><div class="stat-fill" style="width:65%"></div></div></div>
+                    </div>
+                </div>
+                <div class="car-card" data-car="super">
+                    <div class="car-preview super-car"></div>
+                    <h3>PHANTOM</h3>
+                    <div class="car-stats">
+                        <div class="stat"><span>SPEED</span><div class="stat-bar"><div class="stat-fill" style="width:100%"></div></div></div>
+                        <div class="stat"><span>ACCEL</span><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div></div>
+                        <div class="stat"><span>HANDLING</span><div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="garage-buttons">
+                <button class="menu-btn" id="btn-garage-back">&#8592; BACK</button>
+                <button class="menu-btn primary" id="btn-select-car">SELECT &#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settings-screen" style="display:none;">
+        <div class="menu-bg-overlay"></div>
+        <div class="settings-content">
+            <h2 class="settings-title">SETTINGS</h2>
+            <div class="settings-group">
+                <label>Graphics Quality</label>
+                <select id="setting-quality">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high" selected>High</option>
+                    <option value="ultra">Ultra</option>
+                </select>
+            </div>
+            <div class="settings-group">
+                <label>Sound Volume</label>
+                <input type="range" id="setting-volume" min="0" max="100" value="70">
+            </div>
+            <div class="settings-group">
+                <label>AI Difficulty</label>
+                <select id="setting-difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                    <option value="extreme">Extreme</option>
+                </select>
+            </div>
+            <div class="settings-group">
+                <label>Number of Laps</label>
+                <select id="setting-laps">
+                    <option value="1">1 Lap</option>
+                    <option value="2">2 Laps</option>
+                    <option value="3" selected>3 Laps</option>
+                    <option value="5">5 Laps</option>
+                </select>
+            </div>
+            <div class="settings-group">
+                <label>Weather</label>
+                <select id="setting-weather">
+                    <option value="clear" selected>Clear</option>
+                    <option value="cloudy">Cloudy</option>
+                    <option value="rain">Rain</option>
+                    <option value="night">Night</option>
+                </select>
+            </div>
+            <button class="menu-btn" id="btn-settings-back">&#8592; BACK</button>
+        </div>
+    </div>
+
+    <!-- Game HUD -->
+    <div id="game-hud" style="display:none;">
+        <!-- Top bar -->
+        <div class="hud-top">
+            <div class="hud-position">
+                <span class="position-number" id="hud-position">1</span>
+                <span class="position-suffix" id="hud-position-suffix">ST</span>
+                <span class="position-total">/ 4</span>
+            </div>
+            <div class="hud-lap">
+                <span class="lap-label">LAP</span>
+                <span class="lap-current" id="hud-lap">1</span>
+                <span class="lap-separator">/</span>
+                <span class="lap-total" id="hud-total-laps">3</span>
+            </div>
+            <div class="hud-time">
+                <span class="time-label">TIME</span>
+                <span class="time-value" id="hud-time">00:00.000</span>
+            </div>
+        </div>
+
+        <!-- Speedometer -->
+        <div class="hud-speed-cluster">
+            <canvas id="speedometer-canvas" width="220" height="220"></canvas>
+            <div class="speed-digital">
+                <span class="speed-value" id="hud-speed">0</span>
+                <span class="speed-unit">KM/H</span>
+            </div>
+            <div class="gear-indicator" id="hud-gear">N</div>
+        </div>
+
+        <!-- Minimap -->
+        <div class="hud-minimap">
+            <canvas id="minimap-canvas" width="180" height="180"></canvas>
+        </div>
+
+        <!-- Race info -->
+        <div class="hud-race-info">
+            <div class="best-lap">
+                <span class="info-label">BEST LAP</span>
+                <span class="info-value" id="hud-best-lap">--:--.---</span>
+            </div>
+            <div class="last-lap">
+                <span class="info-label">LAST LAP</span>
+                <span class="info-value" id="hud-last-lap">--:--.---</span>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="hud-notification" id="hud-notification" style="display:none;">
+            <span id="notification-text"></span>
+        </div>
+
+        <!-- Countdown -->
+        <div class="countdown-overlay" id="countdown-overlay" style="display:none;">
+            <span class="countdown-number" id="countdown-number">3</span>
+        </div>
+
+        <!-- Pause -->
+        <button class="pause-btn" id="btn-pause">&#10074;&#10074;</button>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pause-menu" style="display:none;">
+        <div class="pause-overlay">
+            <div class="pause-box">
+                <h2>PAUSED</h2>
+                <button class="menu-btn primary" id="btn-resume">RESUME</button>
+                <button class="menu-btn" id="btn-restart">RESTART</button>
+                <button class="menu-btn" id="btn-quit">QUIT TO MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Race Results -->
+    <div id="results-screen" style="display:none;">
+        <div class="results-overlay">
+            <div class="results-box">
+                <h2 class="results-title" id="results-title">RACE COMPLETE</h2>
+                <div class="results-position" id="results-position">1ST</div>
+                <div class="results-details">
+                    <div class="result-row">
+                        <span>Total Time</span>
+                        <span id="results-total-time">00:00.000</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Best Lap</span>
+                        <span id="results-best-lap">00:00.000</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Top Speed</span>
+                        <span id="results-top-speed">0 km/h</span>
+                    </div>
+                </div>
+                <div class="results-buttons">
+                    <button class="menu-btn primary" id="btn-race-again">RACE AGAIN</button>
+                    <button class="menu-btn" id="btn-results-menu">MAIN MENU</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js Canvas Container -->
+    <div id="game-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

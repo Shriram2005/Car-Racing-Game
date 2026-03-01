@@ -1,0 +1,725 @@
+/* ============================================
+   VELOCITY: OPEN WORLD RACING - STYLESHEET
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background: #0a0a0f;
+    font-family: 'Rajdhani', sans-serif;
+    color: #ffffff;
+    cursor: default;
+    user-select: none;
+}
+
+#game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#game-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ============================================
+   LOADING SCREEN
+   ============================================ */
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.game-logo h1, .menu-logo h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 5rem;
+    font-weight: 900;
+    letter-spacing: 0.3em;
+    background: linear-gradient(135deg, #ff6b35, #ff2e63, #845ec2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 30px rgba(255, 46, 99, 0.4));
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+.game-logo .subtitle, .menu-logo .subtitle {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 1em;
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+    margin-top: -5px;
+}
+
+@keyframes logoGlow {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 46, 99, 0.4)); }
+    50% { filter: drop-shadow(0 0 50px rgba(255, 46, 99, 0.7)); }
+}
+
+.loading-bar-container {
+    margin-top: 3rem;
+    width: 400px;
+}
+
+.loading-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff6b35, #ff2e63);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 20px rgba(255, 46, 99, 0.5);
+}
+
+.loading-text {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   MAIN MENU
+   ============================================ */
+.menu-bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 26, 0.95) 0%, rgba(26, 10, 46, 0.9) 50%, rgba(10, 10, 26, 0.95) 100%);
+    backdrop-filter: blur(5px);
+}
+
+.menu-content, .garage-content, .settings-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 2rem;
+}
+
+.menu-logo {
+    margin-bottom: 4rem;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 320px;
+}
+
+.menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    text-align: left;
+    width: 100%;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 46, 99, 0.5);
+    transform: translateX(8px);
+    box-shadow: 0 0 30px rgba(255, 46, 99, 0.2);
+}
+
+.menu-btn.primary {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(255, 46, 99, 0.3));
+    border-color: rgba(255, 46, 99, 0.5);
+}
+
+.menu-btn.primary:hover {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.5), rgba(255, 46, 99, 0.5));
+    box-shadow: 0 0 40px rgba(255, 46, 99, 0.4);
+}
+
+.btn-icon {
+    font-size: 1.3rem;
+    width: 30px;
+    text-align: center;
+}
+
+.menu-footer {
+    position: fixed;
+    bottom: 2rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.1em;
+}
+
+/* ============================================
+   GARAGE / CAR SELECTION
+   ============================================ */
+.garage-title, .settings-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, #ff6b35, #ff2e63);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.car-selector {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.car-card {
+    width: 220px;
+    padding: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.car-card:hover, .car-card.selected {
+    border-color: rgba(255, 46, 99, 0.7);
+    background: rgba(255, 46, 99, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(255, 46, 99, 0.2);
+}
+
+.car-preview {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.sport-car { background: linear-gradient(135deg, #ff6b35, #ff2e63); border-radius: 50% 50% 30% 30%; }
+.muscle-car { background: linear-gradient(135deg, #00d2ff, #3a7bd5); border-radius: 40% 40% 30% 30%; }
+.super-car { background: linear-gradient(135deg, #845ec2, #d65db1); border-radius: 60% 60% 25% 25%; }
+
+.car-card h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+}
+
+.car-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stat span {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    width: 60px;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b35, #ff2e63);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.garage-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.garage-buttons .menu-btn {
+    width: auto;
+    padding: 1rem 3rem;
+}
+
+/* ============================================
+   SETTINGS
+   ============================================ */
+.settings-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.settings-group label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+}
+
+.settings-group select, .settings-group input[type="range"] {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.settings-group select option {
+    background: #1a1a2e;
+}
+
+.settings-group input[type="range"] {
+    width: 150px;
+    -webkit-appearance: none;
+    height: 4px;
+    padding: 0;
+}
+
+.settings-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b35, #ff2e63);
+    cursor: pointer;
+}
+
+.settings-content .menu-btn {
+    margin-top: 2rem;
+    width: auto;
+    padding: 1rem 3rem;
+}
+
+/* ============================================
+   GAME HUD
+   ============================================ */
+#game-hud {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+}
+
+#game-hud button {
+    pointer-events: all;
+}
+
+/* Top bar */
+.hud-top {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    padding: 1.5rem 2rem;
+}
+
+.hud-position {
+    display: flex;
+    align-items: baseline;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.position-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #ff2e63;
+}
+
+.position-suffix {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    color: #ff2e63;
+    margin-right: 0.3rem;
+}
+
+.position-total {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.hud-lap, .hud-time {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lap-label, .time-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.lap-current, .time-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.lap-separator, .lap-total {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Speedometer cluster */
+.hud-speed-cluster {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 220px;
+    height: 220px;
+}
+
+#speedometer-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.speed-digital {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.speed-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.2rem;
+    font-weight: 900;
+    display: block;
+    line-height: 1;
+}
+
+.speed-unit {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.gear-indicator {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #ff2e63;
+}
+
+/* Minimap */
+.hud-minimap {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+#minimap-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Race info */
+.hud-race-info {
+    position: fixed;
+    top: 80px;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.best-lap, .last-lap {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+}
+
+.info-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.5);
+    width: 60px;
+}
+
+.info-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Notification */
+.hud-notification {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    padding: 1rem 3rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 46, 99, 0.5);
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    animation: notifPulse 0.5s ease;
+    text-align: center;
+}
+
+@keyframes notifPulse {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(1.05); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Countdown */
+.countdown-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.countdown-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 10rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff6b35, #ff2e63);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(255, 46, 99, 0.6));
+    animation: countPulse 1s ease;
+}
+
+@keyframes countPulse {
+    0% { transform: scale(2); opacity: 0; }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Pause button */
+.pause-btn {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    letter-spacing: -2px;
+}
+
+.pause-btn:hover {
+    background: rgba(255, 46, 99, 0.3);
+    border-color: rgba(255, 46, 99, 0.5);
+}
+
+/* ============================================
+   PAUSE MENU
+   ============================================ */
+.pause-overlay, .results-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+}
+
+.pause-box, .results-box {
+    background: rgba(15, 15, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    min-width: 320px;
+    backdrop-filter: blur(20px);
+}
+
+.pause-box h2, .results-box h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 2rem;
+}
+
+.pause-box .menu-btn, .results-box .menu-btn {
+    margin-bottom: 0.8rem;
+    justify-content: center;
+}
+
+/* ============================================
+   RESULTS SCREEN
+   ============================================ */
+.results-position {
+    font-family: 'Orbitron', monospace;
+    font-size: 5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffd700, #ff6b35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+}
+
+.results-details {
+    margin-bottom: 2rem;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 1rem;
+}
+
+.result-row span:first-child {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.result-row span:last-child {
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+}
+
+.results-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.results-buttons .menu-btn {
+    flex: 1;
+    justify-content: center;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.menu-btn {
+    animation: slideUp 0.5s ease backwards;
+}
+
+.menu-btn:nth-child(1) { animation-delay: 0.1s; }
+.menu-btn:nth-child(2) { animation-delay: 0.2s; }
+.menu-btn:nth-child(3) { animation-delay: 0.3s; }
+.menu-btn:nth-child(4) { animation-delay: 0.4s; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .game-logo h1, .menu-logo h1 { font-size: 2.5rem; }
+    .car-selector { flex-direction: column; }
+    .hud-speed-cluster { width: 160px; height: 160px; bottom: 1rem; right: 1rem; }
+    .hud-minimap { width: 120px; height: 120px; bottom: 1rem; left: 1rem; }
+    .speed-value { font-size: 1.5rem; }
+    .position-number { font-size: 2rem; }
+}
