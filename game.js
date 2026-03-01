@@ -2057,6 +2057,45 @@ function setupInput() {
     window.addEventListener('keyup', (e) => {
         keys[e.key] = false;
     });
+
+    // Show on-screen controls as soon as any touch is detected
+    window.addEventListener('touchstart', showMobileControls, { once: true, passive: true });
+}
+
+// ==========================================
+// MOBILE / TOUCH CONTROLS
+// ==========================================
+function showMobileControls() {
+    const mc = document.getElementById('mobile-controls');
+    if (mc) mc.style.display = 'flex';
+}
+
+// Called from inline ontouchstart / ontouchend on each button
+function mobileKey(key, down) {
+    keys[key] = down;
+}
+
+function mobileCycleCamera() {
+    cameraMode = (cameraMode + 1) % cameraModes.length;
+    if (state === GameState.RACING || state === GameState.FREE_ROAM) {
+        showNotification(cameraModes[cameraMode].toUpperCase());
+    }
+}
+
+function mobileReset() {
+    if (state === GameState.RACING || state === GameState.FREE_ROAM) {
+        const nearestWp = track.waypoints[playerCar.waypointIndex];
+        const nextWp    = track.waypoints[(playerCar.waypointIndex + 1) % track.waypoints.length];
+        const dir = new THREE.Vector3().subVectors(nextWp, nearestWp).normalize();
+        playerCar.group.position.copy(nearestWp);
+        playerCar.group.position.y = 0;
+        playerCar.rotation = Math.atan2(dir.x, dir.z);
+        playerCar.group.rotation.y = playerCar.rotation;
+        playerCar.speed = 0;
+        playerCar.steerAngle = 0;
+        playerCar.angularVelocity = 0;
+        showNotification('RESET');
+    }
 }
 
 function togglePause() {

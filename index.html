@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Velocity: Open World Racing</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -206,6 +206,55 @@
 
         <!-- Pause -->
         <button class="pause-btn" id="btn-pause">&#10074;&#10074;</button>
+
+        <!-- On-Screen Mobile Controls -->
+        <div id="mobile-controls">
+            <!-- Left steering cluster -->
+            <div class="mob-steer">
+                <button class="mob-btn mob-left"
+                    ontouchstart="mobileKey('ArrowLeft',true);event.preventDefault()"
+                    ontouchend="mobileKey('ArrowLeft',false)"
+                    ontouchcancel="mobileKey('ArrowLeft',false)">
+                    <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+                </button>
+                <button class="mob-btn mob-right"
+                    ontouchstart="mobileKey('ArrowRight',true);event.preventDefault()"
+                    ontouchend="mobileKey('ArrowRight',false)"
+                    ontouchcancel="mobileKey('ArrowRight',false)">
+                    <svg viewBox="0 0 24 24"><polyline points="9,6 15,12 9,18"/></svg>
+                </button>
+            </div>
+
+            <!-- Centre extra buttons -->
+            <div class="mob-extras">
+                <button class="mob-btn mob-drift"
+                    ontouchstart="mobileKey(' ',true);event.preventDefault()"
+                    ontouchend="mobileKey(' ',false)"
+                    ontouchcancel="mobileKey(' ',false)">DRIFT</button>
+                <button class="mob-btn mob-cam"
+                    ontouchstart="mobileCycleCamera();event.preventDefault()">CAM</button>
+                <button class="mob-btn mob-reset"
+                    ontouchstart="mobileReset();event.preventDefault()">RESET</button>
+            </div>
+
+            <!-- Right throttle / brake cluster -->
+            <div class="mob-throttle">
+                <button class="mob-btn mob-gas"
+                    ontouchstart="mobileKey('ArrowUp',true);event.preventDefault()"
+                    ontouchend="mobileKey('ArrowUp',false)"
+                    ontouchcancel="mobileKey('ArrowUp',false)">
+                    <svg viewBox="0 0 24 24"><polyline points="18,15 12,9 6,15"/></svg>
+                    <span>GAS</span>
+                </button>
+                <button class="mob-btn mob-brake"
+                    ontouchstart="mobileKey('ArrowDown',true);event.preventDefault()"
+                    ontouchend="mobileKey('ArrowDown',false)"
+                    ontouchcancel="mobileKey('ArrowDown',false)">
+                    <svg viewBox="0 0 24 24"><polyline points="6,9 12,15 18,9"/></svg>
+                    <span>BRAKE</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Pause Menu -->

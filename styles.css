@@ -713,13 +713,414 @@ body {
 .menu-btn:nth-child(4) { animation-delay: 0.4s; }
 
 /* ============================================
-   RESPONSIVE
+   MOBILE ON-SCREEN CONTROLS
+   ============================================ */
+#mobile-controls {
+    display: none; /* shown via JS on touch devices */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    z-index: 200;
+    pointer-events: all;
+    padding: 0 12px 12px;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    /* prevent text selection on hold */
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+}
+
+/* Cluster wrappers */
+.mob-steer,
+.mob-throttle {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.mob-extras {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 2px;
+}
+
+/* Base button */
+.mob-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    background: rgba(10, 10, 30, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    border-radius: 14px;
+    cursor: pointer;
+    outline: none;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    transition: background 0.1s, border-color 0.1s, transform 0.08s;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mob-btn svg {
+    width: 26px;
+    height: 26px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Steering buttons */
+.mob-left,
+.mob-right {
+    width: 80px;
+    height: 72px;
+    border-color: rgba(130, 180, 255, 0.3);
+}
+
+.mob-left:active,
+.mob-right:active {
+    background: rgba(80, 140, 255, 0.35);
+    border-color: rgba(130, 180, 255, 0.8);
+    transform: scale(0.94);
+    box-shadow: 0 0 18px rgba(100, 160, 255, 0.4);
+}
+.mob-left svg, .mob-right svg {
+    stroke: #88bbff;
+}
+
+/* Gas button */
+.mob-gas {
+    width: 84px;
+    height: 90px;
+    border-color: rgba(80, 255, 140, 0.35);
+    background: rgba(0, 40, 20, 0.65);
+}
+.mob-gas svg { stroke: #44ff88; }
+.mob-gas span { font-size: 0.58rem; color: #44ff88; letter-spacing: 0.1em; }
+
+.mob-gas:active {
+    background: rgba(0, 200, 80, 0.35);
+    border-color: rgba(80, 255, 140, 0.9);
+    transform: scale(0.94);
+    box-shadow: 0 0 20px rgba(60, 255, 120, 0.4);
+}
+
+/* Brake button */
+.mob-brake {
+    width: 84px;
+    height: 72px;
+    border-color: rgba(255, 80, 80, 0.35);
+    background: rgba(40, 0, 0, 0.65);
+}
+.mob-brake svg { stroke: #ff5555; }
+.mob-brake span { font-size: 0.58rem; color: #ff5555; letter-spacing: 0.1em; }
+
+.mob-brake:active {
+    background: rgba(200, 30, 30, 0.35);
+    border-color: rgba(255, 80, 80, 0.9);
+    transform: scale(0.94);
+    box-shadow: 0 0 20px rgba(255, 60, 60, 0.4);
+}
+
+/* Extra centre buttons */
+.mob-drift {
+    width: 68px;
+    height: 44px;
+    font-size: 0.6rem;
+    border-color: rgba(255, 180, 50, 0.35);
+    color: #ffb830;
+}
+.mob-drift:active {
+    background: rgba(200, 120, 0, 0.4);
+    border-color: rgba(255, 180, 50, 0.9);
+    transform: scale(0.93);
+    box-shadow: 0 0 18px rgba(255, 160, 40, 0.4);
+}
+
+.mob-cam {
+    width: 68px;
+    height: 40px;
+    font-size: 0.6rem;
+    border-color: rgba(180, 130, 255, 0.35);
+    color: #bb88ff;
+}
+.mob-cam:active {
+    background: rgba(120, 60, 200, 0.4);
+    border-color: rgba(180, 130, 255, 0.9);
+    transform: scale(0.93);
+}
+
+.mob-reset {
+    width: 68px;
+    height: 40px;
+    font-size: 0.6rem;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255,255,255,0.6);
+}
+.mob-reset:active {
+    background: rgba(255,255,255,0.15);
+    transform: scale(0.93);
+}
+
+/* Show on coarse-pointer (touch) devices automatically */
+@media (pointer: coarse) {
+    #mobile-controls {
+        display: flex !important;
+    }
+}
+
+/* ============================================
+   RESPONSIVE — TABLET & PHONE (≤ 768 px)
    ============================================ */
 @media (max-width: 768px) {
-    .game-logo h1, .menu-logo h1 { font-size: 2.5rem; }
-    .car-selector { flex-direction: column; }
-    .hud-speed-cluster { width: 160px; height: 160px; bottom: 1rem; right: 1rem; }
-    .hud-minimap { width: 120px; height: 120px; bottom: 1rem; left: 1rem; }
-    .speed-value { font-size: 1.5rem; }
-    .position-number { font-size: 2rem; }
+
+    /* --- Loading screen --- */
+    .game-logo h1, .menu-logo h1 {
+        font-size: 2.5rem;
+        letter-spacing: 0.15em;
+    }
+    .game-logo .subtitle, .menu-logo .subtitle {
+        font-size: 0.85rem;
+        letter-spacing: 0.5em;
+    }
+    .loading-bar-container { width: 80vw; }
+
+    /* --- Shared screen layout (menu / garage / settings) --- */
+    .menu-content, .garage-content, .settings-content {
+        justify-content: flex-start;
+        padding: 1.5rem 1rem 2rem;
+        overflow-y: auto;
+        height: 100%;
+        /* enable momentum scroll on iOS */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* --- Main menu logo spacing --- */
+    .menu-logo { margin-bottom: 2rem; }
+
+    /* --- Main menu buttons --- */
+    .menu-buttons {
+        width: min(90vw, 320px);
+    }
+    .menu-btn {
+        font-size: 0.85rem;
+        padding: 0.9rem 1.5rem;
+    }
+
+    /* --- Footer --- */
+    .menu-footer {
+        font-size: 0.7rem;
+        padding: 0 1rem;
+        text-align: center;
+        position: static;
+        margin-top: 2rem;
+    }
+
+    /* --- Garage --- */
+    .garage-title, .settings-title {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.1em;
+    }
+    .car-selector {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .car-card {
+        width: min(85vw, 300px);
+    }
+    .car-preview { height: 100px; }
+    .garage-buttons {
+        flex-direction: column;
+        width: min(85vw, 300px);
+        gap: 0.8rem;
+    }
+    .garage-buttons .menu-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.9rem 1.5rem;
+    }
+
+    /* --- Settings --- */
+    .settings-group {
+        flex-direction: column;
+        align-items: flex-start;
+        width: min(90vw, 400px);
+        gap: 0.5rem;
+        padding: 0.8rem 0;
+    }
+    .settings-group label { font-size: 1rem; }
+    .settings-group select,
+    .settings-group input[type="range"] {
+        width: 100%;
+    }
+    .settings-content .menu-btn {
+        margin-top: 1.5rem;
+        width: min(90vw, 300px);
+        justify-content: center;
+        padding: 0.9rem 1.5rem;
+    }
+
+    /* --- HUD top bar --- */
+    .hud-top {
+        gap: 0.5rem;
+        padding: 0.8rem 0.5rem;
+        flex-wrap: nowrap;
+    }
+    .hud-position, .hud-lap, .hud-time {
+        padding: 0.5rem 0.8rem;
+        border-radius: 8px;
+    }
+    .position-number { font-size: 1.8rem; }
+    .position-suffix { font-size: 0.75rem; }
+    .position-total { font-size: 0.75rem; }
+    .lap-current, .time-value { font-size: 1.1rem; }
+    .lap-label, .time-label { font-size: 0.65rem; }
+
+    /* --- HUD bottom elements (push above mobile controls) --- */
+    .hud-speed-cluster {
+        width: 150px;
+        height: 150px;
+        bottom: 195px;
+        right: 0.8rem;
+    }
+    .hud-minimap {
+        width: 110px;
+        height: 110px;
+        bottom: 195px;
+        left: 0.8rem;
+    }
+    .hud-race-info { top: 70px; right: 0.6rem; }
+    .speed-value { font-size: 1.4rem; }
+
+    /* --- Notification --- */
+    .hud-notification {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+        letter-spacing: 0.1em;
+        max-width: 88vw;
+        text-align: center;
+    }
+
+    /* --- Pause button --- */
+    .pause-btn { width: 38px; height: 38px; font-size: 0.9rem; }
+
+    /* --- Countdown --- */
+    .countdown-number { font-size: 7rem; }
+
+    /* --- Pause / Results box --- */
+    .pause-box, .results-box {
+        min-width: unset;
+        width: 90vw;
+        max-width: 380px;
+        padding: 2rem 1.5rem;
+    }
+    .pause-box h2, .results-box h2 {
+        font-size: 1.5rem;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+    }
+
+    /* --- Results screen --- */
+    .results-position { font-size: 3.5rem; }
+    .results-buttons { flex-direction: column; gap: 0.8rem; }
+    .results-buttons .menu-btn { flex: unset; width: 100%; justify-content: center; }
+    .result-row { font-size: 0.9rem; }
+}
+
+/* ============================================
+   RESPONSIVE — SMALL PHONES (≤ 480 px)
+   ============================================ */
+@media (max-width: 480px) {
+
+    .game-logo h1, .menu-logo h1 {
+        font-size: 2rem;
+        letter-spacing: 0.1em;
+    }
+    .game-logo .subtitle, .menu-logo .subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+    }
+    .loading-bar-container { width: 88vw; }
+
+    .menu-logo { margin-bottom: 1.5rem; }
+    .menu-buttons { width: 88vw; }
+    .menu-btn { font-size: 0.8rem; padding: 0.8rem 1.2rem; }
+    .btn-icon { font-size: 1.1rem; }
+
+    .garage-title, .settings-title {
+        font-size: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+    .car-card { width: 88vw; }
+    .car-preview { height: 90px; }
+    .garage-buttons { width: 88vw; }
+
+    .settings-group { width: 88vw; }
+
+    /* HUD top bar — compact on narrow phones */
+    .hud-top { gap: 0.35rem; padding: 0.6rem 0.4rem; }
+    .hud-position, .hud-lap, .hud-time { padding: 0.4rem 0.6rem; }
+    .position-number { font-size: 1.4rem; }
+    .position-suffix, .position-total { font-size: 0.6rem; }
+    .lap-current, .time-value { font-size: 0.95rem; }
+    .lap-label, .time-label { font-size: 0.6rem; }
+
+    /* HUD bottom — push above taller mobile control bar */
+    .hud-speed-cluster {
+        width: 130px;
+        height: 130px;
+        bottom: 195px;
+        right: 0.5rem;
+    }
+    .hud-minimap {
+        width: 95px;
+        height: 95px;
+        bottom: 195px;
+        left: 0.5rem;
+    }
+    .speed-value { font-size: 1.1rem; }
+    .gear-indicator { font-size: 1.2rem; }
+
+    /* Countdown */
+    .countdown-number { font-size: 5rem; }
+
+    /* Pause / Results */
+    .pause-box, .results-box { padding: 1.5rem 1rem; }
+    .pause-box h2, .results-box h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+    .results-position { font-size: 2.8rem; }
+    .result-row { font-size: 0.85rem; }
+}
+
+/* ============================================
+   NOTCH / SAFE-AREA SUPPORT (iPhone X+, Android cutouts)
+   ============================================ */
+@supports (padding: env(safe-area-inset-bottom)) {
+    #mobile-controls {
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+    .pause-btn {
+        top: calc(1.5rem + env(safe-area-inset-top));
+        right: calc(1.5rem + env(safe-area-inset-right));
+    }
+    .hud-top {
+        padding-top: calc(0.8rem + env(safe-area-inset-top));
+    }
 }
